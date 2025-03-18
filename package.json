@@ -1,0 +1,16 @@
+{
+  "name": "ubereats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scrape.mjs",
+  "scripts": {
+    "main": "node scrape.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "puppeteer": "^22.2.0"
+  }
+}
