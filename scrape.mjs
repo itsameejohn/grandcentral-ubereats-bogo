@@ -1,18 +1,22 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fetch from 'node-fetch';
 import fs from 'fs';
+
+// Use Puppeteer Stealth Plugin
+puppeteer.use(StealthPlugin());
 
 const feedURL = 'https://www.ubereats.com/feed?diningMode=PICKUP&pl=JTdCJTIyYWRkcmVzcyUyMiUzQSUyMkdyYW5kJTIwQ2VudHJhbCUyMFRlcm1pbmFsJTIyJTJDJTIycmVmZXJlbmNlJTIyJTNBJTIyaGVyZSUzQXBkcyUzQXBsYWNlJTNBODQwZHI1cnUtMTBkZDRlOWZkYzE2YjIwNDU1YWRhYjY0NzVmMzhkNDQlMjIlMkMlMjJyZWZlcmVuY2VUeXBlJTIyJTNBJTIyaGVyZV9wbGFjZXMlMjIlMkMlMjJsYXRpdHVkZSUyMiUzQTQwLjc1MjM5JTJDJTIybG9uZ2l0dWRlJTIyJTNBLTczLjk3Nzg3JTdE';
 
 console.log('launching puppeteer...');
 const browser = await puppeteer.launch({ 
-    headless: 'true',
+    headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
 const page = (await browser.pages())[0];
 
 console.log('getting nearby restaurants..');
-await page.goto(feedURL);
+await page.goto(feedURL, { waitUntil: 'networkidle2' });
 
 const cards = 'div:has(> div > div > div > a[data-testid="store-card"])';
 await page.waitForSelector(cards);
